@@ -1,44 +1,61 @@
-import React , { useState } from 'react';
-import { TextInput , View , Button , StyleSheet } from 'react-native';
+import React , { useEffect, useState } from 'react';
+import { TextInput , View , Button , StyleSheet , Modal } from 'react-native';
+import SmallButton from './smallButton';
 
 const GoalInput = props => {
-	
+
 	const [currentGoal, setGoal] = useState('');
 
 	const goalInputHandler = text => {
     setGoal(text);
-  }
+	}
+	
+	useEffect(() => {
+		if(!props.modalVisible){
+			setGoal('');
+		}
+	},[props.modalVisible]);
 
 	return (
+		<Modal
+		 animationType="slide"
+		 visible={props.modalVisible}
+		 style={styles.modalStyles}>
 		<View style={styles.inputContainer}> 
 			<TextInput 
-				placeholder="Course Goal"
+				placeholder="Add Todays Goal 😊"
 				style={styles.input}
 				onChangeText={goalInputHandler}
 				value={currentGoal}
 			/>
-			<Button
-				title="ADD"
-				onPress={()=>props.addGoalHandler(currentGoal)}
-				style={styles.addButton}
+			<SmallButton
+			 title ="ADD"
+			 onPress={()=>props.addGoalHandler(currentGoal)}
 			/>
 		</View>
+		</Modal>
 	)
 }
 
 const styles = StyleSheet.create({
+	modalStyles:{
+   backgroundColor : '#1f2a34',
+	},
 	inputContainer:{
-    flexDirection:'row',
-    justifyContent:'space-evenly',
+		backgroundColor : '#1f2a34',
+		flex:1,
+    justifyContent:'center',
     alignItems:'center',
   },
   input:{
     borderRadius:5,
     backgroundColor:'#d4d4d4',
-    height:35,
-    width:'50%',
+		height:40,
+		width:'90%',
     padding:5,
-    textAlign:'center'
+		textAlign:'center',
+		marginBottom : 2,
+		fontSize : 14,
   },
   addButton : {
     backgroundColor : '#19bced',
